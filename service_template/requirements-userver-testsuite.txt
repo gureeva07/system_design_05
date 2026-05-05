@@ -1,0 +1,1 @@
+yandex-taxi-testsuite[mongodb,postgresql,redis,clickhouse,rabbitmq,kafka,mysql] >= 0.4, < 0.5

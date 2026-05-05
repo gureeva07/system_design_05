@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 5s  # опрашиваю каждые 5 секунд
+
+scrape_configs:
+  - job_name: 'social_network'
+    static_configs:
+      - targets: ['service_template:8080']
+    metrics_path: /metrics

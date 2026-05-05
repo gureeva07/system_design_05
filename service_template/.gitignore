@@ -1,0 +1,39 @@
+__pycache__
+.pytest_cache/
+build*/
+compile_commands.json
+.cache/
+.ccache/
+.idea/
+.vscode/
+!.vscode/c_cpp_properties.json
+!.vscode/cmake-variants.yaml
+!.vscode/README.md
+.cores/
+cmake-build-*
+Testing/
+.DS_Store
+Makefile.local
+CMakeUserPresets.json
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+CTestTestfile.cmake
+DartConfiguration.tcl
+
+# Build artifacts (binaries)
+service_template
+service_template_unittest
+service_template_benchmark
+runtests-service_template
+
+# Virtual environments
+venv-userver-default/
+venv-utest/
+
+# Testsuite generated
+testsuite/
+test-results/

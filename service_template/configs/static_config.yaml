@@ -1,0 +1,100 @@
+config_vars: /service_template/configs/config_vars.yaml
+components_manager:
+    task_processors:                  # Task processor is an executor for coroutine tasks
+
+        main-task-processor:          # Make a task processor for CPU-bound coroutine tasks.
+            worker_threads: $worker-threads         # Process tasks in 4 threads.
+
+        fs-task-processor:            # Make a separate task processor for filesystem bound tasks.
+            worker_threads: $worker-fs-threads
+
+    default_task_processor: main-task-processor
+
+    components:                       # Configuring components that were registered via component_list
+        server:
+            listener:                 # configuring the main listening socket...
+                port: $server-port            # ...to listen on this port and...
+                task_processor: main-task-processor    # ...process incoming requests on this task processor.
+        logging:
+            fs-task-processor: fs-task-processor
+            loggers:
+                default:
+                    file_path: '@stderr'
+                    level: $logger-level
+                    overflow_behavior: discard  # Drop logs if the system is too busy to write them down.
+
+        # Dynamic config options. Cache is disabled, updates are disabled.
+        dynamic-config:
+            # For most of userver dynamic configs, defaults are used, some are overridden here.
+            # See userver "dynamic config" docs for what configs exist.
+            defaults:
+                HTTP_CLIENT_CONNECTION_POOL_SIZE: 1000
+
+        testsuite-support: {}
+
+        http-client:
+            load-enabled: $is_testing
+            #fs-task-processor: fs-task-processor
+
+        dns-client:
+            fs-task-processor: fs-task-processor
+
+        tests-control:
+            load-enabled: $is_testing
+            path: /tests/{action}
+            method: POST
+            task_processor: main-task-processor
+        handler-ping:
+            path: /ping
+            method: GET
+            task_processor: main-task-processor
+            throttling_enabled: false
+            url_trailing_slash: strict-match
+
+        
+        # Авторизация
+        handler-register:
+            path: /api/v1/auth/register
+            method: POST
+            task_processor: main-task-processor
+
+        handler-login:
+            path: /api/v1/auth/login
+            method: POST
+            task_processor: main-task-processor
+
+        handler-logout:
+            path: /api/v1/auth/logout
+            method: POST
+            task_processor: main-task-processor
+
+        # Пользователь
+        handler-users:
+            path: /api/v1/users
+            method: GET,POST
+            task_processor: main-task-processor
+
+        # Стена
+        handler-wall:
+            path: /api/v1/wall/{user_id}
+            method: GET,POST
+            task_processor: main-task-processor
+
+        # Чат
+        handler-messages:
+            path: /api/v1/messages
+            method: GET,POST
+            task_processor: main-task-processor
+        
+        # Метрики для Prometheus
+        handler-metrics:
+            path: /metrics
+            method: GET
+            task_processor: main-task-processor
+
+        postgres-db:
+            dbconnection: $db-connection
+            blocking_task_processor: fs-task-processor
+            dns_resolver: async
+            sync-start: true
+

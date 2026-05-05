@@ -1,0 +1,9 @@
+build/
+.ccache/
+.cache/
+venv-utest/
+venv-userver-default/
+Testing/
+test-results/
+*.o
+*.a

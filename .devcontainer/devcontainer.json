@@ -1,0 +1,18 @@
+{
+  "name": "userver Dev",
+  "image": "ghcr.io/userver-framework/ubuntu-22.04-userver:latest",
+
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/user/projects,type=bind",
+  "workspaceFolder": "/home/user/projects",
+
+  "runArgs": ["--privileged"],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools"
+      ]
+    }
+  }
+}

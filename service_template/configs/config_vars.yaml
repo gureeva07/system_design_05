@@ -1,0 +1,10 @@
+worker-threads: 4
+worker-fs-threads: 2
+logger-level: info
+
+is_testing: false
+
+server-port: 8080
+
+db-connection: 'postgresql://social_user:social_pass@postgres:5432/social_network'
+mongo-connection: 'mongodb://mongodb:27017/social_network'
