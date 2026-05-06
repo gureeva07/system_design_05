@@ -21,7 +21,7 @@ std::optional<std::string> Cache::Get(const std::string& key) const {
     return std::nullopt;
   }
 
-  // проверяю TTL - если истёк, удаляю и считаю как промах
+  // проверяю TTL, если истёк, удаляю и считаю как промах
   if (std::chrono::steady_clock::now() > it->second.expires_at) {
     data_.erase(it);
     ++misses_;
